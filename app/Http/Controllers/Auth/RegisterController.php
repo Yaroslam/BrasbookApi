@@ -26,11 +26,13 @@ class RegisterController
                 "password" => bcrypt($data["password"]),
             ]);
 
-            if($user)
-            {
-                var_dump($user->email);
-                VerificationCode::send("vestnik700@gmail.com");
-            }
+
+        }
+
+        if($user)
+        {
+            var_dump($user->email);
+            VerificationCode::send("vestnik700@gmail.com");
         }
 
     }
@@ -42,7 +44,6 @@ class RegisterController
             "login" => ['required', 'email', 'string', 'unique:users,email'],
             "password" => ['required', 'string'],
             "inn" => ["required"],
-            ''
         ]);
         $user = User::where(["email" => $data["login"]]);
         var_dump($user->email);
