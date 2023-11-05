@@ -32,7 +32,7 @@ class RegisterController
         if($user)
         {
             var_dump($user->email);
-            VerificationCode::send("vestnik700@gmail.com");
+            VerificationCode::send($user->email);
         }
 
     }
