@@ -2,68 +2,49 @@
 
 namespace App\Http\Controllers\Auth;
 
-
+use App\Http\Requests\RegistrationCorporateUserRequest;
+use App\Http\Requests\RegistrationDefaultUserRequest;
 use Auth\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use NextApps\VerificationCode\VerificationCode;
 
 class RegisterController
 {
-
-    public function registerDefaultUser(Request $request)
+    public function registerDefaultUser(RegistrationDefaultUserRequest $request)
     {
-        $user = User::where(["email" => $request->get("login"), "email_verified_at" => null])->first();
-        if (!$user) {
-            $data = $request->validate([
-                "login" => ['required', 'email', 'string', 'unique:users,email'],
-                "password" => ['required', 'string'],
-            ]);
-
-
-            $user = User::create([
-                "email" => $data["login"],
-                "password" => bcrypt($data["password"]),
-            ]);
-
-
-        }
-
-        if($user)
-        {
-            var_dump($user->email);
-            VerificationCode::send($user->email);
-        }
-
-    }
-
-
-    public function registerCorporateUser(Request $request)
-    {
-        $data = $request->validate([
-            "login" => ['required', 'email', 'string', 'unique:users,email'],
-            "password" => ['required', 'string'],
-            "inn" => ["required"],
+        $user = User::create([
+            'email' => $request->get('login'),
+            'password' => bcrypt($request->get('password')),
+            'type' => 'default',
         ]);
-        $user = User::where(["email" => $data["login"]]);
-        var_dump($user->email);
-        if (!$user) {
-            $user = User::create([
-                "email" => $data["login"],
-                "password" => bcrypt($data["password"])
-            ]);
-        }
 
-        if($user)
-        {
+        if ($user) {
             VerificationCode::send($user->email);
+
+            return response()->json(['errors' => 'no', 'status' => 'code sent to '.$request->get('login')], 200);
+        } else {
+            throw new HttpResponseException(response()->json(['error' => 'something happened during registration'], 500));
         }
-
-
-
 
     }
 
+    public function registerCorporateUser(RegistrationCorporateUserRequest $request)
+    {
+        $user = User::create([
+            'email' => $request->get('login'),
+            'password' => bcrypt($request->get('password')),
+            'type' => 'corporate',
+            'inn' => $request->get('inn'),
+            'company_name' => $request->get('company_name'),
+        ]);
 
+        if ($user) {
+            VerificationCode::send($user->email);
 
+            return response()->json(['errors' => 'no', 'status' => 'code sent to '.$request->get('login')], 200);
+        } else {
+            throw new HttpResponseException(response()->json(['error' => 'something happened during registration'], 500));
+        }
+
+    }
 }

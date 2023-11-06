@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,15 +14,13 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::controller(RegisterController::class)->group(function (){
-    Route::post("/test", 'registerDefaultUser');
+Route::controller(RegisterController::class)->group(function () {
+    Route::post('/registerDefaultUser', 'registerDefaultUser'); //tested OK
+    Route::post('/registerCorporateUser', 'registerCorporateUser'); //tested OK
 
 });
 
-Route::controller(\App\Http\Controllers\Auth\MailVerifyController::class)->group(function (){
-   Route::post('/mailverify', 'verifyEmail');
+Route::controller(\App\Http\Controllers\Auth\MailVerifyController::class)->group(function () {
+    Route::post('/mailverify', 'verifyEmail');
+    Route::post('/resendcode', 'resendCode');
 });
