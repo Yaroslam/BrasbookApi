@@ -29,6 +29,6 @@ class MailVerifyController
     {
         VerificationCode::send($request->get('login'));
 
-        return response()->json(['error' => 'no', 'status' => 'code resend to '.$request->get('login')], 200);
+        return response()->json(['error' => 'no', 'status' => 'code resend to '.$request->get('login'), 'action' => 'verify code'], 200);
     }
 }
