@@ -14,7 +14,7 @@ class RegisterController
     {
         $user = User::create([
             'email' => $request->get('login'),
-            'password' => sha1($request->get('password')),
+            'password' => bcrypt($request->get('password')),
             'type' => 'default',
         ]);
 
@@ -32,7 +32,7 @@ class RegisterController
     {
         $user = User::create([
             'email' => $request->get('login'),
-            'password' => sha1($request->get('password')),
+            'password' => bcrypt($request->get('password')),
             'type' => 'corporate',
             'inn' => $request->get('inn'),
             'company_name' => $request->get('company_name'),
