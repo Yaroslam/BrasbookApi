@@ -6,6 +6,7 @@ use App\Http\Requests\RegistrationCorporateUserRequest;
 use App\Http\Requests\RegistrationDefaultUserRequest;
 use Auth\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Hash;
 use NextApps\VerificationCode\VerificationCode;
 
 class RegisterController
@@ -14,7 +15,7 @@ class RegisterController
     {
         $user = User::create([
             'email' => $request->get('login'),
-            'password' => bcrypt($request->get('password')),
+            'password' => Hash::make($request->get('password')),
             'type' => 'default',
         ]);
 
@@ -32,7 +33,7 @@ class RegisterController
     {
         $user = User::create([
             'email' => $request->get('login'),
-            'password' => bcrypt($request->get('password')),
+            'password' => Hash::make($request->get('password')),
             'type' => 'corporate',
             'inn' => $request->get('inn'),
             'company_name' => $request->get('company_name'),

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use Auth\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -14,7 +15,7 @@ class LoginController extends Controller
         if (! $user) {
             return response()->json(['errors' => 'something happened during login'], 400);
         } else {
-            if (password_verify($request->get('password'), $user->password)) {
+            if (Hash::check($request->get('password'), $user->password)) {
                 return response()->json([$user->password, bcrypt($request->get('password'))], 400);
             }
 
