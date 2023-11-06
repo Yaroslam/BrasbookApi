@@ -26,8 +26,18 @@ class MailVerifyController
 
     public function resendCode(ResendVerifyCodeRequest $request)
     {
-        VerificationCode::send($request->get('login'));
+        $user = User::where(['email' => $request->get('login')])->first();
+        if (! $user) {
+            return response()->json(['error' => 'user not found', 'action' => 'register'], 400);
+        } else {
+            if ($user->email_verified_at == null) {
+                VerificationCode::send($request->get('login'));
 
-        return response()->json(['error' => 'no', 'status' => 'code resend to '.$request->get('login'), 'action' => 'verify code'], 200);
+                return response()->json(['error' => 'no', 'status' => 'code resend to '.$request->get('login'), 'action' => 'verify code'], 200);
+            } else {
+                return response()->json(['error' => 'email already verify', 'action' => 'login'], 400);
+            }
+        }
+
     }
 }
