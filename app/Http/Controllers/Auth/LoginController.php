@@ -15,7 +15,7 @@ class LoginController extends Controller
             return response()->json(['errors' => 'something happened during login'], 400);
         } else {
             if (bcrypt($request->get('password')) != $user->password) {
-                return response()->json(['errors' => 'invalid password'], 400);
+                return response()->json([$user->password, bcrypt($request->get('password'))], 400);
             }
 
             if ($user->email_verified_at == null) {
