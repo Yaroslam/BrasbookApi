@@ -19,7 +19,7 @@ class MailVerifyController
             $token = $user->createToken($request->token_name);
             $user->save();
 
-            return ['token' => $token->plainTextToken];
+            return response()->json(['error' => 'no', 'action' => 'login'], 200);
         } else {
             return response()->json(['error' => 'invalid code entered', 'action' => 'resend code'], 400);
         }
