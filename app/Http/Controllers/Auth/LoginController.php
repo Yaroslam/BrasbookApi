@@ -16,7 +16,8 @@ class LoginController extends Controller
             return response()->json(['errors' => 'something happened during login'], 400);
         } else {
             if (Hash::check($request->get('password'), $user->password)) {
-                return response()->json([$user->password, bcrypt($request->get('password'))], 400);
+                return response()->json([$user->password, bcrypt($request->get('password')),
+                    Hash::check($request->get('password'), '$2y$12$TTGVPNoU81WcxpuOq/tDPuTWyJF0zUNY2R8sNM0YaLdJxd7eT2nHm')], 400);
             }
 
             if ($user->email_verified_at == null) {
