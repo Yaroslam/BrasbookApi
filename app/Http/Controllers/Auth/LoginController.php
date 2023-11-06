@@ -22,7 +22,7 @@ class LoginController extends Controller
                 return response()->json(['errors' => 'email not verified', 'action' => 'send code'], 400);
             }
 
-            $token = $user->createToken($request->token_name);
+            $token = $user->createToken('Bearer');
             $user->save();
 
             return response()->json(['token' => $token->plainTextToken, 'user_login' => $user->email], 200);

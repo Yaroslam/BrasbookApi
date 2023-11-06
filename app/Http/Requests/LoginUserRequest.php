@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
 class LoginUserRequest extends FormRequest
 {
@@ -27,7 +26,6 @@ class LoginUserRequest extends FormRequest
         return [
             'login' => ['required', 'email', 'string', 'exists:users,email'],
             'password' => ['required', 'string', 'min:8', 'max:25', 'regex:/(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z!@#$%^&*]+/'],
-            'token_name' => ['required', Rule::in(['Bearer'])],
         ];
     }
 

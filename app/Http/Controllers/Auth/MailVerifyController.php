@@ -16,7 +16,6 @@ class MailVerifyController
         if (VerificationCode::verify($request->get('code'), $request->get('login'))) {
             $user = User::where(['email' => $request->get('login')])->first();
             $user->email_verified_at = Carbon::now();
-            $token = $user->createToken($request->token_name);
             $user->save();
 
             return response()->json(['error' => 'no', 'action' => 'login'], 200);

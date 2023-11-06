@@ -24,3 +24,7 @@ Route::controller(\App\Http\Controllers\Auth\MailVerifyController::class)->group
     Route::post('/mailverify', 'verifyEmail');
     Route::post('/resendcode', 'resendCode');
 });
+
+Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(function () {
+    Route::post('/login', 'loginUser');
+});
