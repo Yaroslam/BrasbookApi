@@ -27,7 +27,7 @@
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
             "Auth\\": "src/Auth/",
-            "Files\\": "src/Files/"
+            "Audio\\": "src/Audio/"
         }
     },
     "autoload-dev": {

@@ -3,8 +3,10 @@
 namespace Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Audio\Models\Albums;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -45,4 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function albums(): belongsToMany
+    {
+        return $this->belongsToMany(Albums::class, 'albums_users', 'user_id', 'album_id');
+    }
 }

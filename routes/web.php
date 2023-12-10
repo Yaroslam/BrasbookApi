@@ -21,10 +21,21 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(\App\Http\Controllers\Auth\MailVerifyController::class)->group(function () {
-    Route::post('/mailverify', 'verifyEmail');
-    Route::post('/resendcode', 'resendCode');
+    Route::post('/mailverify', 'verifyEmail');  //tested OK
+    Route::post('/resendcode', 'resendCode');  //tested OK
 });
 
 Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(function () {
-    Route::post('/login', 'loginUser');
+    Route::post('/login', 'loginUser');  //tested OK
+});
+
+Route::controller(\App\Http\Controllers\Songs\SongController::class)->group(function () {
+    Route::get('/getSongs', 'getSongs');
+});
+
+Route::controller(\App\Http\Controllers\Songs\AlbumController::class)->group(function () {
+    Route::post('/createAlbum', 'createAlbum');
+    Route::get('/getAlbumsByUser', 'getAlbumsByUser');
+    Route::delete('/deleteSongFromAlbum', 'deleteSongFromAlbum');
+    Route::post('/addSongToAlbum', 'addSongToAlbum');
 });
