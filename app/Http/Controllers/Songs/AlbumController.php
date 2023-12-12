@@ -31,13 +31,13 @@ class AlbumController extends Controller
     public function addSongToAlbum(AddSongToAlbumRequest $request)
     {
         $album = Albums::findOrfail($request->get('album_id'));
-        $album->songs->attach([$request->get('song_id')]);
+        $album->songs()->attach([$request->get('song_id')]);
     }
 
     public function deleteSongFromAlbum(AddSongToAlbumRequest $request)
     {
         $album = Albums::findOrfail($request->get('album_id'));
-        $album->songs->detach([$request->get('song_id')]);
+        $album->songs()->detach([$request->get('song_id')]);
     }
 
     public function getAlbumsByUser(GetAlbumRequest $request)
